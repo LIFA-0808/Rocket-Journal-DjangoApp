@@ -1,1 +1,2 @@
-Rocket-Journal-DjangoApp
+#Rocket-Journal-DjangoApp
+Проект электронного журнала для исследовательских работ

@@ -1,0 +1,13 @@
+{% extends "journal/research.html" %}
+
+{% block content %}
+<form class="form-row" method="post">{% csrf_token %}
+  <p class="lead">Добавить испытание</p>
+  <div class="col">
+      <input type="text" name="text" id="inputTopic"  class="form-control" required autofocus>
+  </div>
+
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Продолжить</button>
+</form>
+
+{% endblock content %}
