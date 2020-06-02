@@ -7,6 +7,16 @@
     min-height: 100px;
 }
 
+a{
+    color: #000000;
+}
+
+.clip {
+white-space: nowrap; /* Запрещаем перенос строк */
+overflow: hidden; /* Обрезаем все, что не помещается в область */
+text-overflow: ellipsis; /* Добавляем многоточие */
+}
+
 /* NavBar */
 @media (min-width: 768px) {
   html {
@@ -24,6 +34,7 @@
 
 .card-deck .card {
   min-width: 220px;
+  max-width: 660px;
 }
 /* End NavBar */
 
@@ -80,3 +91,40 @@
   border-top-right-radius: 0;
 }
 /* End Register */
+
+/* Research Section */
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.container {
+  max-width: 960px;
+}
+
+.pricing-header {
+  max-width: 700px;
+}
+
+.card-deck .card {
+  min-width: 220px;
+}
+
+.topic {
+    color: ;
+}
+/* END Research */
+
+/* New Record */
+
+.create-form {
+    width: 100%;
+    max-width: 100%;
+    padding: 15px;
+    margin: auto;
+}
+
+.submit-button{
+    max-width: 200px;
+}

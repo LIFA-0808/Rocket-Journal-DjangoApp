@@ -1,18 +1,45 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-  <h1 class="display-4">Rocket Journal</h1>
-  <p class="lead">Редактирование записи:
-  </p>
+<div class="container">
+  <div class="flex-row p-2 mb-2">
+    <h4 class="flex-grow-1 ">Редактирование записи:</h4>
+  </div>
   <div class="container">
-    <form action="{% url 'the_counter:edit_record' record.id %}" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button name="submit">Сохранить изменения</button>
-    </form>
+    <div class="row">
+        <div class="col-lg-10 offset-lg-1">
+            <form class="create-form" method="post" enctype="multipart/form-data">{% csrf_token %}
+
+                <!-- title -->
+                <div class="form-group">
+                    <label for="id_title">Заголовок</label>
+                    <input class="form-control" type="text" name="title" id="id_title" placeholder="Заголовок" required
+                           value="{{ form.initial.title }}">
+                </div>
+
+                <!-- Body -->
+                <div class="form-group">
+                    <label for="id_comment">Описание</label>
+                    <textarea class="form-control" rows="10" type="text" name="comment" id="id_comment"
+                              placeholder="Добавьте комментарий" autofocus>{{ form.initial.comment }}</textarea>
+                </div>
+
+                <!-- File -->
+                <div class="form-group custom-file mb-2">
+                    <label class="custom-file-label" for="customFile">Выберите файл</label>
+                    <input type="file" name="file" class="custom-file-input" id="customFile" value="{{ form.initial.file }}">
+                </div>
+
+
+                <!-- Submit btn -->
+                <button class="submit-button btn btn-lg btn-primary btn-block" type="submit">Сохранить</button>
+            </form>
+        </div>
+    </div>
+
   </div>
 </div>
+
 
 
 {% endblock content %}

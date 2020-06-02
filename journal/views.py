@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
 from .forms import TopicForm, RecordForm
 from .models import Topic, Record
+from account.models import Account
 
 
 def index_view(request):
@@ -24,7 +25,6 @@ def research_view(request):
             form.save()
             return HttpResponseRedirect(reverse('journal:research'))
     context['form'] = form
-    # return render(request, 'journal/new_topic.html', context)
     return render(request, 'journal/research.html', context)
 
 
@@ -50,19 +50,33 @@ def new_topic(request):
     return render(request, 'journal/new_topic.html', context)
 
 
-def new_record(request):
-    """Adding a new record"""
-    if request.method != 'POST':
-        # Data have not been send, creating empty form
-        form = RecordForm()
-    else:
-        # POST data sent, process data
-        form = RecordForm(data=request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('research'))
+def delete_topic(request, topic_id):
+    """Delete record"""
+    topic = Topic.objects.get(id=topic_id)
+    topic.delete()
+    return HttpResponseRedirect(reverse('journal:research'))
 
-    context = {'form': form}
+
+def new_record(request, topic_id):
+    """Adding a new record"""
+    context = {}
+
+    user = request.user
+    if not user.is_authenticated:
+        return redirect('must_authenticate')
+
+    form = RecordForm(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        obj = form.save(commit=False)
+        author = Account.objects.filter(email=user.email).first()
+        topic = Topic.objects.get(id=topic_id)
+        obj.author = author
+        obj.topic = topic
+        obj.save()
+        form = RecordForm()
+        return redirect('journal:research')
+
+    context['form'] = form
     return render(request, 'journal/new_record.html', context)
 
 
@@ -78,7 +92,7 @@ def edit_record(request, record_id):
         form = RecordForm(instance=record, data=request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('research'))
+            return HttpResponseRedirect(reverse('journal:research'))
 
     context = {'record': record, 'form': form}
     return render(request, 'journal/edit_record.html', context)
@@ -88,4 +102,4 @@ def delete_record(request, record_id):
     """Delete record"""
     record = Record.objects.get(id=record_id)
     record.delete()
-    return HttpResponseRedirect(reverse('research'))
+    return HttpResponseRedirect(reverse('journal:research'))

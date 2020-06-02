@@ -1,19 +1,41 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-  <h1 class="display-4">Добавить новую запись:</h1>
-  <p class="lead">
-  </p>
-  <div class="container">
-    <form action="{% url 'the_counter:new_record' %}" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button name="submit">Добавить запись</button>
-    </form>
+<div class="container">
+<div class="flex-row p-2 my-2">
+    <h4 class="flex-grow-1 ">Добавить новую запись:</h4>
   </div>
-</div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-10 offset-lg-1">
+            <form class="create-form" method="post" enctype="multipart/form-data">{% csrf_token %}
 
+                <!-- title -->
+                <div class="form-group">
+                    <label for="id_title">Заголовок</label>
+                    <input class="form-control" type="text" name="title" id="id_title" placeholder="Заголовок" required autofocus>
+                </div>
+
+                <!-- Body -->
+                <div class="form-group">
+                    <label for="id_comment">Описание</label>
+                    <textarea class="form-control" rows="10" type="text" name="comment" id="id_comment" placeholder="Добавьте комментарий"></textarea>
+                </div>
+
+                <!-- File -->
+                <div class="form-group custom-file mb-2">
+                    <label class="custom-file-label" for="customFile">Выберите файл</label>
+                    <input type="file" name="file" class="custom-file-input" id="customFile">
+                </div>
+
+
+                <!-- Submit btn -->
+                <button class="submit-button btn btn-lg btn-primary btn-block" type="submit">Сохранить</button>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
 
 {% endblock content %}
 

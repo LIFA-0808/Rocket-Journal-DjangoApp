@@ -12,19 +12,8 @@ class TopicForm(ModelForm):
 class RecordForm(ModelForm):
     class Meta:
         model = Record
-        fields = '__all__'
-        # exclude = ['date_added']
-        labels = {
-            'item_description': _('Назначение'),
-        }
-        help_texts = {
-            'item_description': _('Добавьте описание вашей записи'),
-        }
-        error_messages = {
-            'item_description': {
-                'max_length': _("Максимальная длинна поля должна не привышать 200 символов"),
-            },
-        }
+        fields = ['title', 'comment', 'file']
+
         widgets = {
-            'item_description': Textarea(attrs={'cols': 80, 'rows': 2}),
+            'comment': Textarea(attrs={'cols': 80, 'rows': 2}),
         }

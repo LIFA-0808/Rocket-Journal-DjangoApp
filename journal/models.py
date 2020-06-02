@@ -1,9 +1,10 @@
+from django.conf import settings
 from django.db import models
 
 
 class Topic(models.Model):
     """New research section"""
-    text = models.CharField(max_length=200)
+    text = models.CharField(max_length=50)
     date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -19,16 +20,16 @@ class Record(models.Model):
     """"New record"""
 
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
-    text = models.CharField(max_length=100,  verbose_name='Заголовок')
-    comment = models.CharField(max_length=15000, blank=True, verbose_name='Описание')
-    image = models.FileField(default='default.png', blank=True, null=True, verbose_name='Файл')
-    # author = model.CharField(max_length=100, default=user.username, verbose_name='Автор')
+    title = models.CharField(max_length=100,  verbose_name='Заголовок')
+    comment = models.CharField(max_length=10000, blank=True, verbose_name='Описание')
+    file = models.FileField(default='default.png', blank=True, null=True, verbose_name='Файл')
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Автор')
 
     date_added = models.DateTimeField(auto_now=True, verbose_name='Дата')
 
     def __str__(self):
         """Returns the stream representation of the model"""
-        return f"{self.date_added} - {self.topic}"
+        return self.title
 
     class Meta:
         verbose_name = 'Публикация'
